@@ -1,0 +1,42 @@
+<div class="container">
+  <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+    <h2 class="title">Reactive Driven Form</h2>
+
+    <div class="form-group">
+      <label>Username*</label>
+      <input type="name" class="form-control" minlength="3" maxlength="15" formControlName="name" id="name" required
+        placeholder="Vasja">
+      <div [hidden]="name.pristine || name.valid">
+        <p *ngIf="name.hasError('required')" class="alert alert-danger">Name is required</p>
+        <p *ngIf="name.hasError('minlength')" class="alert alert-danger">Name must be at least 3 characters long and max
+          length = 15 characters</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Password*</label>
+      <input type="password" class="form-control" formControlName="password" required placeholder="lastname5">
+      <div [hidden]="pwd.pristine || pwd.valid">
+        <p *ngIf="pwd.hasError('required')" class="alert alert-danger">Password is required</p>
+        <p *ngIf="pwd.hasError('capitalLetters')" class="alert alert-danger">Enter at least 1 capital letter</p>
+        <p *ngIf="pwd.hasError('lowCaseLetters')" class="alert alert-danger">Enter at least 1 low case letter</p>
+        <p *ngIf="pwd.hasError('digits')" class="alert alert-danger">Enter at least 1 digit</p>
+
+      </div>
+    </div>
+    <hr>
+    <div formArrayName="emails" class="form-group">
+      <div *ngFor="let alias of email.controls; let i=index">
+        <label>Email</label>
+        <input type="email" [formControlName]="i" class="form-control" placeholder="name9@gmail.com">
+        <button type="button" (click)="addEmail()" class="btn btn-secondary btn-add">Add Email</button>
+        <button type="button" (click)="deleteEmail(i)" class="btn btn-danger btn-del">Delete Email</button>
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button type="button" (click)="updateData()" class="btn btn-primary update">Update Data</button>
+      <button type="submit" class="btn btn-success" [disabled]="!reactiveForm.valid">Submit</button>
+    </div>
+  </form>
+</div>
